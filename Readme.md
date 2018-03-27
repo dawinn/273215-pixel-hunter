@@ -1,7 +1,7 @@
 # Личный проект «Пиксель хантер» [![Build status][travis-image]][travis-url]
 
 * Студент: [Ольга Карпик](https://up.htmlacademy.ru/ecmascript/4/user/273215).
-* Наставник: `Неизвестно`.
+* Наставник: [Евгений Фаллер](https://up.htmlacademy.ru/ecmascript/4/user/505933).
 
 ---
 
