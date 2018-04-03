@@ -53,7 +53,7 @@
     pressedAltArrow(pressedKeys);
   };
 
-  showScreen(currentScreen + 1);
+  showScreen(++currentScreen);
   document.addEventListener(`keydown`, onKeyDown);
 
   document.addEventListener(`keyup`, function (evtUp) {
