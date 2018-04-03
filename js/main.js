@@ -28,7 +28,7 @@
   const shiftScreen = function (step) {
     currentScreen += step;
     currentScreen = (step < 0 ? Math.max(currentScreen, 1) : currentScreen);
-    currentScreen = (step > 0 ? Math.min(currentScreen, templateLinks.length) : currentScreen);
+    currentScreen = (step > 0 ? Math.min(currentScreen, templateLinks.length - 1) : currentScreen);
     showScreen(currentScreen);
   };
 
@@ -46,8 +46,7 @@
 
   const onKeyDown = function (evtDown) {
     pressedKeys[evtDown.keyCode] = true;
-
-    if (!pressedKeys[keyCode.ALT] && !pressedKeys[keyCode.LEFT_ARROW] && !pressedKeys[keyCode.LEFT_ARROW]) {
+    if (!pressedKeys[keyCode.ALT] || !(pressedKeys[keyCode.LEFT_ARROW] || pressedKeys[keyCode.RIGHT_ARROW])) {
       return;
     }
 
