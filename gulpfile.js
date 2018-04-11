@@ -13,6 +13,7 @@ const rename = require('gulp-rename');
 const imagemin = require('gulp-imagemin');
 const rollup = require('gulp-better-rollup');
 const sourcemaps = require('gulp-sourcemaps');
+const mocha = require('gulp-mocha');
 
 gulp.task('style', function () {
   return gulp.src('sass/style.scss')
@@ -37,11 +38,6 @@ gulp.task('style', function () {
     .pipe(gulp.dest('build/css'));
 });
 
-// gulp.task('scripts', function () {
-//   return gulp.src('js/**/*.js')
-//     .pipe(plumber())
-//     .pipe(gulp.dest('build/js/'));
-// });
 
 gulp.task('scripts', function () {
   return gulp.src('js/main.js')
@@ -111,4 +107,13 @@ gulp.task('assemble', ['clean'], function () {
 
 gulp.task('build', ['assemble'], function () {
   gulp.start('imagemin');
+});
+
+gulp.task('test', function () {
+  return gulp
+    .src(['js/**/*.test.js'], { read: false })
+    .pipe(mocha({
+      compilers: ['js:babel-register'], // Включим поддержку "import/export" в Mocha тестах
+      reporter: 'spec'       // Вид в котором я хочу отображать результаты тестирования
+    }));
 });
