@@ -34,8 +34,11 @@
     "node": "6.11.3"
   },
   "babel": {
-  "plugins": [
-    "transform-es2015-modules-commonjs"
-  ]
-}
+    "plugins": [
+      "transform-es2015-modules-commonjs"
+    ]
+  },
+  "dependencies": {
+    "npm": "^5.8.0"
+  }
 }
