@@ -1,6 +1,7 @@
 import {showScreen, createElement} from './utils.js';
 import stats from './stats.js';
-import greeting from './greeting.js';
+// import greeting from './greeting.js';
+import backToGreeting from './backToGreeting.js';
 
 const screen = createElement(`<header class="header">
     <div class="header__back">
@@ -64,10 +65,12 @@ const opinions = game.querySelectorAll(`.game__option`);
   });
 });
 
-const backButton = screen.querySelector(`.back`);
+// const backButton = screen.querySelector(`.back`);
 
-backButton.addEventListener(`click`, () => {
-  showScreen(greeting);
-});
+// backButton.addEventListener(`click`, () => {
+//   showScreen(greeting);
+// });
+
+backToGreeting(screen);
 
 export default screen;

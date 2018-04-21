@@ -1,6 +1,7 @@
 import {showScreen, createElement} from './utils.js';
 import game1 from './game-1.js';
-import greeting from './greeting.js';
+// import greeting from './greeting.js';
+import backToGreeting from './backToGreeting.js';
 
 const screen = createElement(`<header class="header">
     <div class="header__back">
@@ -48,10 +49,11 @@ player.addEventListener(`keyup`, () =>{
   submit.disabled = !player.value;
 });
 
-const backButton = screen.querySelector(`.back`);
+// const backButton = screen.querySelector(`.back`);
 
-backButton.addEventListener(`click`, () => {
-  showScreen(greeting);
-});
+// backButton.addEventListener(`click`, () => {
+//   showScreen(greeting);
+// });
+backToGreeting(screen);
 
 export default screen;
