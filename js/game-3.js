@@ -3,7 +3,8 @@ import stats from './stats.js';
 // import greeting from './greeting.js';
 import backToGreeting from './backToGreeting.js';
 
-const screen = createElement(`<header class="header">
+const screenCode = {
+  header: `<header class="header">
     <div class="header__back">
       <button class="back">
         <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
@@ -16,8 +17,8 @@ const screen = createElement(`<header class="header">
       <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
       <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
     </div>
-  </header>
-  <div class="game">
+  </header>`,
+  context: `<div class="game">
     <p class="game__task">Найдите рисунок среди изображений</p>
     <form class="game__content  game__content--triple">
       <div class="game__option">
@@ -44,8 +45,8 @@ const screen = createElement(`<header class="header">
         <li class="stats__result stats__result--unknown"></li>
       </ul>
     </div>
-  </div>
-  <footer class="footer">
+  </div>`,
+  footer: `<footer class="footer">
     <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
     <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
     <div class="footer__social-links">
@@ -54,7 +55,10 @@ const screen = createElement(`<header class="header">
       <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
       <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
     </div>
-  </footer>`);
+  </footer>`
+};
+
+const screen = createElement(`${screenCode.header}${screenCode.context}${screenCode.footer}`);
 
 const game = screen.querySelector(`.game__content`);
 const opinions = game.querySelectorAll(`.game__option`);

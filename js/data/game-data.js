@@ -1,3 +1,9 @@
+const TIME_ANSWER = {
+  QUICK: 10,
+  SLOW: 20,
+  OUT: 30
+};
+
 export const getResult = (answers, lifes) => {
   let result = 0;
   let countWrongs = 0;
@@ -5,8 +11,8 @@ export const getResult = (answers, lifes) => {
     const answer = answers[i];
     if (answer[0] === 1) {
       result += 100;
-      result += (answer[1] < 10 ? 50 : 0);
-      result += (answer[1] > 20 ? -50 : 0);
+      result += (answer[1] < TIME_ANSWER.QUICK ? 50 : 0);
+      result += (answer[1] > TIME_ANSWER.SLOW ? -50 : 0);
     } else if (answer[0] === 0) {
       countWrongs++;
     } else if (answer[0] === -1) {

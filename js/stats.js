@@ -2,15 +2,16 @@ import {showScreen, createElement} from './utils.js';
 // import greeting from './greeting.js';
 import backToGreeting from './backToGreeting.js';
 
-const screen = createElement(`<header class="header">
+const screenCode = {
+  header: `<header class="header">
     <div class="header__back">
       <button class="back">
         <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
         <img src="img/logo_small.svg" width="101" height="44">
       </button>
     </div>
-  </header>
-  <div class="result">
+  </header>`,
+  context: `<div class="result">
     <h1>Победа!</h1>
     <table class="result__table">
       <tr>
@@ -109,8 +110,8 @@ const screen = createElement(`<header class="header">
         <td colspan="5" class="result__total  result__total--final">950</td>
       </tr>
     </table>
-  </div>
-  <footer class="footer">
+  </div>`,
+  footer: `<footer class="footer">
     <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
     <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
     <div class="footer__social-links">
@@ -119,7 +120,10 @@ const screen = createElement(`<header class="header">
       <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
       <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
     </div>
-  </footer>`);
+  </footer>`
+};
+
+const screen = createElement(`${screenCode.header}${screenCode.context}${screenCode.footer}`);
 
 // const backButton = screen.querySelector(`.back`);
 
