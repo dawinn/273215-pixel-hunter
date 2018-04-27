@@ -37,7 +37,7 @@ export const getResult = (answers, lives) => {
   let result = 0;
   let countWrongs = 0;
   for (let i = 0; i < answers.length; i++) {
-    const answer = Object.values(answers[i]);
+    const answer = (typeof answers[i] === Object ? Object.values(answers[i]) : answers[i]);
     if (answer[0] === 1) {
       result += 100;
       result += (answer[1] < ANSWER_TIME.FAST ? 50 : 0);
