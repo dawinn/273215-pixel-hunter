@@ -4,7 +4,6 @@ import * as applications from '../application.js';
 import {getHeader} from '../templates/header-view.js';
 import {getScreenGame} from '../templates/game-view.js';
 import {getFooter} from '../templates/footer-view.js';
-// import statsView from '../templates/stats-view.js';
 
 const INITIAL_GAME = {
   LEVELS_COUNT: 10,
@@ -12,25 +11,9 @@ const INITIAL_GAME = {
 };
 
 export const initGame = (playerName) => {
-  const game = {
-    name: playerName
-  };
-  Object.assign(game, INITIAL_STATE);
-  const answers = new Array(INITIAL_GAME.LEVELS_COUNT);
-  for (let i = 0; i < INITIAL_GAME.LEVELS_COUNT; i++) {
-    answers[i] = {result: ANSWER_TYPES[`none`], time: 0};
-  }
-
-
-  const levels = Array(INITIAL_GAME.LEVELS_COUNT);
-
-  for (let i = 0; i < INITIAL_GAME.LEVELS_COUNT; i++) {
-    levels[i] = getImage(Math.floor(Math.random() * INITIAL_GAME.MAX_IMAGES_TO_LEVEL) + 1);
-  }
-  Object.assign(game, {levels}, {answers});
-
-  return game;
-
+  const answers = new Array(INITIAL_GAME.LEVELS_COUNT).fill().map(() => Object.assign({}, {result: ANSWER_TYPES[`none`], time: 0}));
+  const levels = Array(INITIAL_GAME.LEVELS_COUNT).fill().map(() => getImage(Math.floor(Math.random() * INITIAL_GAME.MAX_IMAGES_TO_LEVEL) + 1));
+  return Object.assign({}, {name: playerName}, INITIAL_STATE, {levels}, {answers});
 };
 
 const screen = document.querySelector(`.central`);
