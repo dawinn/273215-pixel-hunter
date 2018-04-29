@@ -47,8 +47,8 @@ gulp.task('scripts', function () {
     .pipe(sourcemaps.write(''))
     .pipe(gulp.dest('build/js'));
 });
-gulp.task('test', function () {
-});
+// gulp.task('test', function () {
+// });
 
 gulp.task('imagemin', ['copy'], function () {
   return gulp.src('build/img/**/*.{jpg,png,gif}')
