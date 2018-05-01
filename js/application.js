@@ -1,54 +1,47 @@
-import {showScreen, createElement} from './utils.js';
-import greetingView from './templates/greeting-view.js';
-import rulesView from './templates/rules-view.js';
-import statsView from './templates/stats-view.js';
-import {initGame, playGame} from './data/game.js';
+import HeaderView from './templates/header-view';
+import GreetingView from './templates/greeting-view';
+import RulesView from './templates/rules-view';
+import StatsView from './templates/stats-view';
+import GameModel from './data/game-model';
+import GameScreen from './templates/game-screen.js';
 
-export const showGreeting = () => {
-  const screen = createElement(greetingView);
-  showScreen(screen);
 
-  screen.querySelector(`.greeting__continue`).addEventListener(`click`, (evt) => {
-    evt.preventDefault();
-    showRules();
-  });
-
+const screen = document.querySelector(`.central`);
+export const showScreen = (elements) => {
+  screen.innerHTML = ``;
+  for (const element of elements) {
+    screen.appendChild(element);
+  }
 };
 
-export const showRules = () => {
-  const screen = createElement(rulesView);
-  showScreen(screen);
+export default class Application {
 
-  const submit = screen.querySelector(`.rules__button`);
-  const player = screen.querySelector(`.rules__input`);
+  static showGreeting() {
+    const greeting = new GreetingView();
+    greeting.onContinueClick = () => Application.showRules();
+    showScreen([greeting.element]);
+  }
 
-  submit.addEventListener(`click`, (evt) =>{
-    evt.preventDefault();
+  static showRules() {
+    const header = new HeaderView();
+    const rules = new RulesView();
+    header.onBackButtonClick = () => Application.showGreeting();
+    rules.onSubmit = (data) => Application.showGame(data);
 
-    showGame(player.value);
-  });
+    showScreen([header.element, rules.element]);
+  }
 
-  player.addEventListener(`keyup`, () =>{
-    submit.disabled = !player.value;
-  });
+  static showGame(playerName) {
+    const gameScreen = new GameScreen(new GameModel(playerName));
+    showScreen([gameScreen.element]);
+    gameScreen.startGame();
+  }
 
-  const backButton = screen.querySelector(`.back`);
-  backButton.addEventListener(`click`, () => {
-    showGreeting();
-  });
-};
+  static showStats(win, stats) {
+    const header = new HeaderView();
+    const statsPage = new StatsView(win, stats);
+    header.onBackButtonClick = () => Application.showGreeting();
+    showScreen([header.element, statsPage.element]);
+  }
 
-export const showGame = (playerName) => {
-  const game = initGame(playerName);
-  playGame(game);
-};
-
-export const showStats = (stats) => {
-  const screen = createElement(statsView(stats));
-  showScreen(screen);
-
-  const backButton = screen.querySelector(`.back`);
-  backButton.addEventListener(`click`, () => {
-    showGreeting();
-  });
-};
+}
