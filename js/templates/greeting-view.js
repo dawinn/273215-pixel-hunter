@@ -1,10 +1,10 @@
-import {getFooter} from './footer-view.js';
+import AbstractView from "../abstract-view";
+import FooterView from './footer-view';
+// import Application from '../../application';
 
-const screenCode = {
-  get header() {
+export default class GreetingView extends AbstractView {
 
-  },
-  get content() {
+  get template() {
     return `<div class="greeting central--blur">
     <div class="greeting__logo"><img src="img/logo_big.png" width="201" height="89" alt="Pixel Hunter"></div>
     <h1 class="greeting__asterisk">*</h1>
@@ -17,11 +17,14 @@ const screenCode = {
         Помни, главное — смотреть очень внимательно.</p>
     </div>
     <div class="greeting__continue"><span><img src="img/arrow_right.svg" width="64" height="64" alt="Next"></span></div>
-  </div>`;
-  },
-  get footer() {
-    return getFooter();
+  </div>
+  ${new FooterView().template}`;
   }
-};
 
-export default `${Object.entries(screenCode).map((it) => it[1]).join(``)}`;
+
+  bind() {
+    this.element.querySelector(`.greeting__continue`).addEventListener(`click`, this.onContinueClick);
+  }
+
+  onContinueClick() {}
+}

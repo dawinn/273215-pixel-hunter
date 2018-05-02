@@ -1,6 +1,4 @@
-import {showGreeting} from './application.js';
+import Application from "./application";
 
-const asteriskLink = document.querySelector(`.intro__asterisk`);
-asteriskLink.addEventListener(`click`, () => {
-  showGreeting();
-});
+Application.showGreeting();
+// Application.showPage();
