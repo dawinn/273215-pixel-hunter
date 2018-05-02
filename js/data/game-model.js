@@ -4,7 +4,7 @@ export default class GameModel {
 
   constructor(playerName) {
     this.data = LEVELS_GAME.slice();
-    this.stats = Array();
+    this.stats = [];
     this.results = Array(this.data.length).fill().map(() => Object.assign({}, {result: -1, time: 15}));
     this.playerName = playerName;
     this.restart();

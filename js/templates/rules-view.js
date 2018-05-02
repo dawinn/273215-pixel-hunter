@@ -1,5 +1,4 @@
 import AbstractView from "../abstract-view";
-import HeaderView from './header-view.js';
 import FooterView from './footer-view';
 
 
@@ -50,7 +49,7 @@ export default class RulesView extends AbstractView {
 
   }
 
-  onSubmit(data) {
+  onSubmit() {
 
   }
 }
