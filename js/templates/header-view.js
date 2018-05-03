@@ -31,11 +31,11 @@ export default class HeaderView extends AbstractView {
   bind(element) {
     element.querySelector(`.back`).addEventListener(`click`, (evt) => {
       evt.preventDefault();
-      this.onBackButtonClick();
+      this.onBackClick();
     });
   }
 
-  onBackButtonClick() {
+  onBackClick() {
 
   }
 }

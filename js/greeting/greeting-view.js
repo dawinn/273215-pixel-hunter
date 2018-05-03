@@ -1,6 +1,5 @@
 import AbstractView from "../abstract-view";
-import FooterView from './footer-view';
-// import Application from '../../application';
+import FooterView from '../templates/footer-view';
 
 export default class GreetingView extends AbstractView {
 
@@ -26,5 +25,7 @@ export default class GreetingView extends AbstractView {
     this.element.querySelector(`.greeting__continue`).addEventListener(`click`, this.onContinueClick);
   }
 
-  onContinueClick() {}
+  onContinueClick() {
+
+  }
 }
