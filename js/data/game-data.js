@@ -83,18 +83,18 @@ export const getResult = (answers, lives) => {
   return result + (lives > 0 ? lives * 50 : 0);
 };
 
-export const getTimer = (timeSeconds) => {
-  return {
-    time: timeSeconds,
-    tick() {
-      if (this.time > 0) {
-        return getTimer(this.time + 1);
-      } else {
-        return `timeout`;
-      }
-    }
-  };
-};
+// export const getTimer = (timeSeconds) => {
+//   return {
+//     time: timeSeconds,
+//     tick() {
+//       if (this.time > 0) {
+//         return getTimer(this.time + 1);
+//       } else {
+//         return `timeout`;
+//       }
+//     }
+//   };
+// };
 
 export const tick = (game) => {
   const time = game.time - 1;
