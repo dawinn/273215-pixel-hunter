@@ -4,9 +4,10 @@ export const INITIAL_GAME = Object.freeze({
   time: 30,
 });
 
+
 export const answersTime = {
-  FAST: 10,
-  SLOW: 20,
+  FAST: 20,
+  SLOW: 10,
   ABIT: 5
 };
 
@@ -41,106 +42,7 @@ export const templateGames = {
   }
 };
 
-export const LEVELS_GAME = [
-  {
-    "type": `two-of-two`,
-    "question": `Угадайте для каждого изображения фото или рисунок?`,
-    "answers": [
-      {
-        "image": {
-          "url": `http://placehold.it/468x458`,
-          "width": 468,
-          "height": 458
-        },
-        "type": `photo`
-      },
-      {
-        "image": {
-          "url": `http://placehold.it/468x458`,
-          "width": 468,
-          "height": 458
-        },
-        "type": `painting`
-      }
-    ]
-  },
-  {
-    "type": `tinder-like`,
-    "question": `Угадай, фото или рисунок?`,
-    "answers": [
-      {
-        "image": {
-          "url": `http://placehold.it/705x455`,
-          "width": 705,
-          "height": 455
-        },
-        "type": `photo`
-      }
-    ]
-  },
-  {
-    "type": `one-of-three`,
-    "question": `Найдите рисунок среди изображений`,
-    "answers": [
-      {
-        "image": {
-          "url": `http://placehold.it/304x455`,
-          "width": 304,
-          "height": 455
-        },
-        "type": `photo`
-      },
-      {
-        "image": {
-          "url": `http://placehold.it/304x455`,
-          "width": 304,
-          "height": 455
-        },
-        "type": `painting`
-      },
-      {
-        "image": {
-          "url": `http://placehold.it/304x455`,
-          "width": 304,
-          "height": 455
-        },
-        "type": `photo`
-      }
-    ]
-  },
-  {
-    "type": `one-of-three`,
-    "question": `Найдите фото среди изображений`,
-    "answers": [
-      {
-        "image": {
-          "url": `http://placehold.it/304x455`,
-          "width": 304,
-          "height": 455
-        },
-        "type": `painting`
-      },
-      {
-        "image": {
-          "url": `http://placehold.it/304x455`,
-          "width": 304,
-          "height": 455
-        },
-        "type": `painting`
-      },
-      {
-        "image": {
-          "url": `http://placehold.it/304x455`,
-          "width": 304,
-          "height": 455
-        },
-        "type": `photo`
-      }
-    ]
-  }
-];
-
-export const isSuccessAnswer = (game, answer) => {
+export const checkAnswer = (game, answer) => {
   let result;
   switch (game.type) {
     case gameTypes.ONE:
@@ -160,19 +62,16 @@ export const isSuccessAnswer = (game, answer) => {
   return result;
 };
 
-
-export const canContinue = (game) => game.lives > 0 && game.level < game.data.length - 1;
-
 export const getResult = (answers, lives) => {
   let result = 0;
   let countWrongs = 0;
   for (let i = 0; i < answers.length; i++) {
-    const answer = (typeof answers[i] === Object ? Object.values(answers[i]) : answers[i]);
-    if (answer[0] === 1) {
+    let answer = (typeof answers[i] === `object` ? Object.values(answers[i]) : answers[i]);
+    if (answer[0]) {
       result += 100;
-      result += (answer[1] < answersTime.FAST ? 50 : 0);
-      result += (answer[1] > answersTime.SLOW ? -50 : 0);
-    } else if (answer[0] === 0) {
+      result += (answer[1] > answersTime.FAST ? 50 : 0);
+      result += (answer[1] < answersTime.SLOW ? -50 : 0);
+    } else if (answer.result) {
       countWrongs++;
     } else if (answer[0] === -1) {
       return -1;
@@ -181,24 +80,24 @@ export const getResult = (answers, lives) => {
   if (countWrongs > 3) {
     return -1;
   }
-  return result + lives * 50;
+  return result + (lives > 0 ? lives * 50 : 0);
 };
 
-export const getTimer = (timeSeconds) => {
-  return {
-    time: timeSeconds,
-    tick() {
-      if (this.time > 0) {
-        return getTimer(this.time - 1);
-      } else {
-        return `timeout`;
-      }
-    }
-  };
-};
+// export const getTimer = (timeSeconds) => {
+//   return {
+//     time: timeSeconds,
+//     tick() {
+//       if (this.time > 0) {
+//         return getTimer(this.time + 1);
+//       } else {
+//         return `timeout`;
+//       }
+//     }
+//   };
+// };
 
 export const tick = (game) => {
-  const time = game.time + 1;
+  const time = game.time - 1;
 
   return Object.assign({}, game, {
     time

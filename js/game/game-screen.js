@@ -1,7 +1,7 @@
-import {Result} from '../data/game-data.js';
-import HeaderView from './header-view.js';
-import FooterView from './footer-view.js';
-import LevelView from './level-view.js';
+import {Result} from '../data/game-data';
+import HeaderView from '../templates/header-view';
+import FooterView from '../templates/footer-view';
+import LevelView from './level-view';
 
 import Application from '../application';
 
@@ -16,6 +16,7 @@ export default class GameScreen {
     this.root.appendChild(this.content.element);
     this.root.appendChild(new FooterView().element);
 
+    this._interval = null;
   }
 
   get element() {
@@ -23,11 +24,21 @@ export default class GameScreen {
   }
 
   stopGame() {
-
+    clearInterval(this._interval);
   }
 
   startGame() {
     this.changeLevel();
+    this.model.restartTimer();
+
+    this._interval = setInterval(() => {
+      this.model.tick();
+      if (this.model.state.time <= 0) {
+        this.answer([]);
+      }
+      this.updateHeader();
+    }, 1000);
+
   }
 
   answer(answer) {
@@ -51,7 +62,7 @@ export default class GameScreen {
   updateHeader() {
     const header = new HeaderView(this.model.state);
     this.root.replaceChild(header.element, this.header.element);
-    header.onBackButtonClick = this.onBackButtonClick.bind(this);
+    header.onBackClick = this.goBack.bind(this);
     this.header = header;
   }
 
@@ -70,11 +81,11 @@ export default class GameScreen {
   }
 
   endGame(win) {
-    this.model.saveStats();
-    Application.showStats(win, this.model.stats);
+    this.model.saveStats(win);
+    Application.showStats(this.model);
   }
 
-  onBackButtonClick() {
+  goBack() {
     Application.showGreeting();
   }
 }

@@ -1,17 +1,27 @@
-import {INITIAL_GAME, LEVELS_GAME, Result, isSuccessAnswer, tick} from './game-data.js';
+import {INITIAL_GAME,
+  Result,
+  checkAnswer,
+  tick} from './game-data.js';
 
 export default class GameModel {
 
-  constructor(playerName) {
-    this.data = LEVELS_GAME.slice();
-    this.stats = [];
-    this.results = Array(this.data.length).fill().map(() => Object.assign({}, {result: -1, time: 15}));
+  constructor(gameData, playerName) {
+    this.data = gameData.slice();
     this.playerName = playerName;
+
     this.restart();
   }
 
   get state() {
     return this._state;
+  }
+
+  get results() {
+    return this._results;
+  }
+
+  get stats() {
+    return this._stats;
   }
 
   hasNextLevel() {
@@ -20,6 +30,8 @@ export default class GameModel {
 
   restart() {
     this._state = INITIAL_GAME;
+    this._stats = [];
+    this._results = Array(this.data.length);
   }
 
   die() {
@@ -32,7 +44,6 @@ export default class GameModel {
 
   nextLevel() {
     this._state = Object.assign({}, this._state, {level: this._state.level + 1});
-
   }
 
   getLevel() {
@@ -40,15 +51,15 @@ export default class GameModel {
   }
 
   addResult(result) {
-    this.results[this._state.level].result = result;
+    this._results[this._state.level] = {result, time: this._state.time};
   }
 
-  saveStats() {
-    this.stats.unshift(Object.assign({}, {lives: this._state.lives}, {answers: this.results}));
+  saveStats(win) {
+    this._stats.push(Object.assign({}, {win}, {lives: this._state.lives}, {answers: this._results}));
   }
 
   handlingAnswer(answer) {
-    const result = isSuccessAnswer(this.getLevel(), answer);
+    const result = checkAnswer(this.getLevel(), answer);
     this.addResult(result);
     if (!result) {
       this.die();
@@ -62,6 +73,10 @@ export default class GameModel {
       return Result.NEXT_LEVEL;
     }
     return Result.WIN;
+  }
+
+  restartTimer() {
+    this._state = Object.assign({}, this._state, {time: 30});
   }
 
   tick() {

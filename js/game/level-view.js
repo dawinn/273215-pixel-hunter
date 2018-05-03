@@ -1,15 +1,15 @@
-import renderStatsBar from './statsbar';
+import renderStatsBar from '../stats/statsbar-view';
 import AbstractView from '../abstract-view';
 import {gameTypes, templateGames} from '../data/game-data';
 
 
 export default class LevelView extends AbstractView {
-  constructor(data, results) {
+  constructor(data, _stats) {
     super();
     this.type = data.type;
     this.question = data.question;
     this.answers = data.answers;
-    this.results = results;
+    this._stats = _stats;
   }
 
   get template() {
@@ -30,7 +30,7 @@ export default class LevelView extends AbstractView {
             </label>` : ``}</div>`).join(``)}
     </form>
     <div class="stats">
-      ${renderStatsBar(this.results)}
+      ${renderStatsBar(this._stats)}
     </div>
   </div>`;
   }
