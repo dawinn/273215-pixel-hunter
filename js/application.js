@@ -39,8 +39,13 @@ export default class Application {
   }
 
   static showStats(stats) {
-    const statsPage = new StatsScreen(stats);
+    const playerName = stats.playerName;
+    const statsPage = new StatsScreen(stats, playerName);
     changeView(statsPage.element);
+    Loader.saveResults(stats, playerName);
+    Loader.loadResults(playerName).
+        then((data) => statsPage.showStats(data)).
+        catch(Application.showError);
   }
 
   static showError(error) {

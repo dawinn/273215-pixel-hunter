@@ -1,4 +1,4 @@
-import {Result} from '../data/game-data';
+import {NextStep} from '../data/game-data';
 import HeaderView from '../templates/header-view';
 import FooterView from '../templates/footer-view';
 import LevelView from './level-view';
@@ -34,7 +34,7 @@ export default class GameScreen {
     this._interval = setInterval(() => {
       this.model.tick();
       if (this.model.state.time <= 0) {
-        this.answer([]);
+        this.answer();
       }
       this.updateHeader();
     }, 1000);
@@ -44,14 +44,14 @@ export default class GameScreen {
   answer(answer) {
     this.stopGame();
 
-    switch (this.model.handlingAnswer(answer)) {
-      case Result.NEXT_LEVEL:
+    switch (this.model.onAnswer(answer)) {
+      case NextStep.NEXT_LEVEL:
         this.startGame();
         break;
-      case Result.DIE:
+      case NextStep.DIE:
         this.endGame(false);
         break;
-      case Result.WIN:
+      case NextStep.WIN:
         this.endGame(true);
         break;
       default:
@@ -81,8 +81,7 @@ export default class GameScreen {
   }
 
   endGame(win) {
-    this.model.saveStats(win);
-    Application.showStats(this.model);
+    Application.showStats(this.model.getStats(win));
   }
 
   goBack() {

@@ -1,6 +1,7 @@
 import {INITIAL_GAME,
-  Result,
+  NextStep,
   checkAnswer,
+  getResultType,
   tick} from './game-data.js';
 
 export default class GameModel {
@@ -20,17 +21,12 @@ export default class GameModel {
     return this._results;
   }
 
-  get stats() {
-    return this._stats;
-  }
-
   hasNextLevel() {
     return this._state.level < (this.data.length - 1);
   }
 
   restart() {
     this._state = INITIAL_GAME;
-    this._stats = [];
     this._results = Array(this.data.length);
   }
 
@@ -51,28 +47,29 @@ export default class GameModel {
   }
 
   addResult(result) {
-    this._results[this._state.level] = {result, time: this._state.time};
+    this._results[this._state.level] = result;
   }
 
-  saveStats(win) {
-    this._stats.push(Object.assign({}, {win}, {lives: this._state.lives}, {answers: this._results}));
+  getStats(win) {
+    return (Object.assign({}, {playerName: this.playerName, win, lives: this._state.lives}, {answers: this._results}));
   }
 
-  handlingAnswer(answer) {
+  onAnswer(answer) {
+
     const result = checkAnswer(this.getLevel(), answer);
-    this.addResult(result);
+    this.addResult(getResultType(result, this._state.time));
+
     if (!result) {
       this.die();
     }
-
-    if (this.hasNextLevel()) {
-      if (this.isDead()) {
-        return Result.DIE;
-      }
-      this.nextLevel();
-      return Result.NEXT_LEVEL;
+    if (this.isDead()) {
+      return NextStep.DIE;
     }
-    return Result.WIN;
+    if (this.hasNextLevel()) {
+      this.nextLevel();
+      return NextStep.NEXT_LEVEL;
+    }
+    return NextStep.WIN;
   }
 
   restartTimer() {

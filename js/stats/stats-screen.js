@@ -4,11 +4,12 @@ import FooterView from '../templates/footer-view';
 import StatsView from './stats-view';
 
 export default class RulesScreen {
-  constructor(data) {
+  constructor(data, playerName) {
     this._data = data;
+    this._playerName = playerName;
     this.header = new HeaderView();
     this.header.onBackClick = this.goBack.bind(this);
-    this.content = new StatsView(this._data.stats);
+    this.content = new StatsView(this._data);
     this.content.onSubmit = this.submit;
 
     this.root = document.createElement(`div`);
@@ -22,6 +23,10 @@ export default class RulesScreen {
   }
 
   goBack() {
-    Application.showGame(this._data.playerName);
+    Application.showGame(this._playerName);
+  }
+
+  showStats(stats) {
+    this.content.showStats(stats);
   }
 }
