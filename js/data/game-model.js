@@ -1,12 +1,12 @@
 import {INITIAL_GAME,
-  LEVELS_GAME, Result,
+  Result,
   checkAnswer,
   tick} from './game-data.js';
 
 export default class GameModel {
 
-  constructor(playerName) {
-    this.data = LEVELS_GAME.slice();
+  constructor(gameData, playerName) {
+    this.data = gameData.slice();
     this.playerName = playerName;
 
     this.restart();

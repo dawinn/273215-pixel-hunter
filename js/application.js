@@ -1,4 +1,6 @@
 import GameModel from './data/game-model';
+import ErrorScreen from "./error/error-screen";
+import Loader from "./loader";
 import GreetingScreen from './greeting/greeting-screen';
 import RulesScreen from './rules/rules-screen';
 import GameScreen from './game/game-screen';
@@ -10,12 +12,17 @@ export const changeView = (element) => {
   screen.appendChild(element);
 };
 
+let gameData;
 export default class Application {
   static start() {
-    this.showGreeting();
+    Loader.loadData().
+        then(Application.showGreeting).
+        catch(Application.showError);
+
   }
 
-  static showGreeting() {
+  static showGreeting(data) {
+    gameData = data;
     const greeting = new GreetingScreen();
     changeView(greeting.element);
   }
@@ -26,7 +33,7 @@ export default class Application {
   }
 
   static showGame(playerName) {
-    const gameScreen = new GameScreen(new GameModel(playerName));
+    const gameScreen = new GameScreen(new GameModel(gameData, playerName));
     changeView(gameScreen.element);
     gameScreen.startGame();
   }
@@ -36,4 +43,8 @@ export default class Application {
     changeView(statsPage.element);
   }
 
+  static showError(error) {
+    const errorView = new ErrorScreen(error);
+    changeView(errorView.element);
+  }
 }
