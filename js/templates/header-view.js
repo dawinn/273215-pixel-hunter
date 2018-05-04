@@ -8,7 +8,6 @@ export default class HeaderView extends AbstractView {
   constructor(state) {
     super();
     this.state = state;
-    this._blink = ``;
   }
 
   get template() {
@@ -20,7 +19,7 @@ export default class HeaderView extends AbstractView {
         <img src="img/logo_small.svg" width="101" height="44">
       </button>
     </div>
-   ${!this.state ? `` : `<h1 class="game__timer${this._blink}">${this.state.time}</h1>
+   ${!this.state ? `` : `<h1 class="game__timer">${this.state.time}</h1>
     <div class="game__lives">
       ${drawHeart(this.state.lives > 2)}
       ${drawHeart(this.state.lives > 1)}
@@ -43,11 +42,7 @@ export default class HeaderView extends AbstractView {
   }
 
   onBlink() {
-    this._blink.classList.toggle(`game__timer--blink`);
-  }
-
-  offBlink() {
-    this._blink = ``;
+    this._blink.classList.add(`game__timer--blink`);
   }
 
 }
