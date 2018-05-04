@@ -1,4 +1,3 @@
-import Application from '../application';
 import HeaderView from '../templates/header-view';
 import FooterView from '../templates/footer-view';
 import RulesView from './rules-view';
@@ -6,10 +5,10 @@ import RulesView from './rules-view';
 export default class RulesScreen {
   constructor() {
     this.header = new HeaderView();
-    this.header.onBackClick = this.goBack;
 
+    this.header.onBackClick = () => this.goBack();
     this.content = new RulesView();
-    this.content.onSubmit = this.submit;
+    this.content.onSubmit = () => this.submit();
 
     this.root = document.createElement(`div`);
     this.root.appendChild(this.header.element);
@@ -21,11 +20,12 @@ export default class RulesScreen {
     return this.root;
   }
 
-  submit(playerName) {
-    Application.showGame(playerName);
+  submit() {
+
   }
 
   goBack() {
-    Application.showGreeting();
+
   }
+
 }

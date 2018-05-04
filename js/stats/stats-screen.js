@@ -1,4 +1,3 @@
-import Application from '../application';
 import HeaderView from '../templates/header-view';
 import FooterView from '../templates/footer-view';
 import StatsView from './stats-view';
@@ -8,7 +7,7 @@ export default class RulesScreen {
     this._data = data;
     this._playerName = playerName;
     this.header = new HeaderView();
-    this.header.onBackClick = this.goBack.bind(this);
+    this.header.onBackClick = () => this.goBack();
     this.content = new StatsView(this._data);
     this.content.onSubmit = this.submit;
 
@@ -23,7 +22,7 @@ export default class RulesScreen {
   }
 
   goBack() {
-    Application.showGame(this._playerName);
+
   }
 
   showStats(stats) {

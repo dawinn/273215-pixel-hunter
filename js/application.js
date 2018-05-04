@@ -25,16 +25,21 @@ export default class Application {
   static showGreeting(data) {
     gameData = data;
     const greeting = new GreetingScreen();
+    greeting.goContinue = () => Application.showRules();
     changeView(greeting.element);
   }
 
   static showRules() {
     const rules = new RulesScreen();
+    rules.goBack = () => Application.showGreeting();
+    rules.submit = (player) => Application.showGame(player);
     changeView(rules.element);
   }
 
   static showGame(playerName) {
     const gameScreen = new GameScreen(new GameModel(gameData, playerName));
+    gameScreen.goBack = () => Application.showGreeting();
+    gameScreen.showStats = (stats) => Application.showStats(stats);
     changeView(gameScreen.element);
     gameScreen.startGame();
   }
@@ -42,6 +47,7 @@ export default class Application {
   static async showStats(stats) {
     const playerName = stats.playerName;
     const statsPage = new StatsScreen(stats, playerName);
+    statsPage.goBack = (player) => Application.showGame(player);
     changeView(statsPage.element);
     try {
       await Loader.saveResults(stats, playerName);

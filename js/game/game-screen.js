@@ -3,8 +3,6 @@ import HeaderView from '../templates/header-view';
 import FooterView from '../templates/footer-view';
 import LevelView from './level-view';
 
-import Application from '../application';
-
 const ABIT_TIME = 5;
 
 export default class GameScreen {
@@ -73,7 +71,7 @@ export default class GameScreen {
     }
     this.root.replaceChild(header.element, this.header.element);
 
-    header.onBackClick = this.goBack.bind(this);
+    header.onBackClick = () => this.goBack();
     this.header = header;
   }
 
@@ -92,11 +90,15 @@ export default class GameScreen {
   }
 
   endGame(win) {
-    Application.showStats(this.model.getStats(win));
+    this.showStats(this.model.getStats(win));
   }
 
   goBack() {
-    Application.showGreeting();
+
+  }
+
+  showStats() {
+
   }
 }
 
