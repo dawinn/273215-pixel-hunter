@@ -33,9 +33,16 @@ export default class HeaderView extends AbstractView {
       evt.preventDefault();
       this.onBackClick();
     });
+
+    this._blink = this.element.querySelector(`.game__timer`);
   }
 
   onBackClick() {
 
   }
+
+  onBlink() {
+    this._blink.classList.add(`game__timer--blink`);
+  }
+
 }

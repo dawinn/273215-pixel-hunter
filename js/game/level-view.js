@@ -63,7 +63,7 @@ export default class LevelView extends AbstractView {
           option.addEventListener(`click`, (evt) => {
             evt.preventDefault();
             this.onAnswer([this.answers[i].type]);
-          });
+          }, false);
         });
         break;
     }

@@ -7,8 +7,7 @@ export const INITIAL_GAME = Object.freeze({
 
 export const answersTime = {
   FAST: 20,
-  SLOW: 10,
-  ABIT: 5
+  SLOW: 10
 };
 
 export const Result = {

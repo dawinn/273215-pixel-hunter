@@ -14,11 +14,12 @@ export const changeView = (element) => {
 
 let gameData;
 export default class Application {
-  static start() {
-    Loader.loadData().
-        then(Application.showGreeting).
-        catch(Application.showError);
-
+  static async start() {
+    try {
+      Application.showGreeting(await Loader.loadData());
+    } catch (e) {
+      Application.showError(e);
+    }
   }
 
   static showGreeting(data) {
@@ -38,14 +39,16 @@ export default class Application {
     gameScreen.startGame();
   }
 
-  static showStats(stats) {
+  static async showStats(stats) {
     const playerName = stats.playerName;
     const statsPage = new StatsScreen(stats, playerName);
     changeView(statsPage.element);
-    Loader.saveResults(stats, playerName);
-    Loader.loadResults(playerName).
-        then((data) => statsPage.showStats(data)).
-        catch(Application.showError);
+    try {
+      await Loader.saveResults(stats, playerName);
+      statsPage.showStats(await Loader.loadResults(playerName));
+    } catch (e) {
+      Application.showError(e);
+    }
   }
 
   static showError(error) {
