@@ -11,13 +11,15 @@ export const answersTime = {
   ABIT: 5
 };
 
-export const answersTypes = {
-  NONE: -1,
-  FAIL: 0,
-  LUCK: 1
+export const Result = {
+  UNKNOWN: `unknown`,
+  CORRECT: `correct`,
+  WRONG: `wrong`,
+  FAST: `fast`,
+  SLOW: `slow`
 };
 
-export const Result = {
+export const NextStep = {
   NOOP: 0,
   DIE: 1,
   WIN: 2,
@@ -62,6 +64,24 @@ export const checkAnswer = (game, answer) => {
   return result;
 };
 
+export const getResultType = (answer, time) => {
+  if (answer === `undefined`) {
+    return Result.UNKNOWN;
+  } else {
+    if (answer) {
+      if (time > answersTime.FAST) {
+        return Result.FAST;
+      }
+      if (time < answersTime.SLOW) {
+        return Result.SLOW;
+      }
+      return Result.CORRECT;
+    } else {
+      return Result.WRONG;
+    }
+  }
+};
+
 export const getResult = (answers, lives) => {
   let result = 0;
   let countWrongs = 0;
@@ -82,19 +102,6 @@ export const getResult = (answers, lives) => {
   }
   return result + (lives > 0 ? lives * 50 : 0);
 };
-
-// export const getTimer = (timeSeconds) => {
-//   return {
-//     time: timeSeconds,
-//     tick() {
-//       if (this.time > 0) {
-//         return getTimer(this.time + 1);
-//       } else {
-//         return `timeout`;
-//       }
-//     }
-//   };
-// };
 
 export const tick = (game) => {
   const time = game.time - 1;

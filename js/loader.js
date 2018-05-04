@@ -1,6 +1,6 @@
 import {adaptServerData} from './data/data-adapter';
 
-const SERVER_URL = `https://es.dump.academy/pixel-hunter/questions`;
+const SERVER_URL = `https://es.dump.academy/pixel-hunter`;
 
 const DEFAULT_NAME = `o0`;
 const APP_ID = 273215;
@@ -17,7 +17,7 @@ const toJSON = (res) => res.json();
 
 export default class Loader {
   static loadData() {
-    return fetch(`${SERVER_URL}`).then(checkStatus).then(toJSON).then(adaptServerData);
+    return fetch(`${SERVER_URL}/questions`).then(checkStatus).then(toJSON).then(adaptServerData);
   }
 
   static loadResults(name = DEFAULT_NAME) {
