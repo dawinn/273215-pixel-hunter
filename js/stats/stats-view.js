@@ -43,8 +43,9 @@ export default class StatsView extends AbstractView {
   }
 
   get template() {
-    return `<div class="result">${this.head}${this.content}
+    return `<div class="result">${this.head}
       <div class="stats__all">
+        ${this.content}
         <div class="message">Statistics is loading...</div>
       </div>
     </div>`;
@@ -81,7 +82,7 @@ export default class StatsView extends AbstractView {
   showStats(stats) {
     this._statsContainer.innerHTML = ``;
     this._statsContainer.innerHTML = `
-    ${stats.map((it, i) => StatsView.showStat(2 + i, it)).join(``)}`;
+    ${stats.map((it, i) => StatsView.showStat(1 + i, it)).join(``)}`;
 
   }
 }

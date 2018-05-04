@@ -17,6 +17,11 @@
   transform: translateX(-50%);
 }
 
+.game__timer--blink {
+  color: red;
+  transform: translateX(-50%) scale(1.2);
+}
+
 .game__lives {
   position: absolute;
   top: 20px;
