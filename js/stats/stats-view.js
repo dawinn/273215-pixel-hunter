@@ -80,6 +80,7 @@ export default class StatsView extends AbstractView {
   }
 
   showStats(stats) {
+    stats.reverse();
     this._statsContainer.innerHTML = ``;
     this._statsContainer.innerHTML = `
     ${stats.map((it, i) => StatsView.showStat(1 + i, it)).join(``)}`;
