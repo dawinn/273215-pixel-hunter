@@ -71,7 +71,7 @@ export default class GameScreen {
     }
     this.root.replaceChild(header.element, this.header.element);
 
-    header.onBackClick = () => this.goBack();
+    header.onBackClick = () => this.onConfirm();
     this.header = header;
   }
 
@@ -91,6 +91,29 @@ export default class GameScreen {
 
   endGame(win) {
     this.showStats(this.model.getStats(win));
+  }
+
+  onConfirm() {
+    this.stopGame();
+    const popup = document.createElement(`div`);
+    popup.classList.add(`confirm__overlay`);
+    popup.innerHTML = `
+      <form class="confirm__form">
+        <div class="confirm__message">Вы хотите вернуться? Все результаты текущей игры будут потеряны</div>
+        <div class="confirm__buttons">
+          <input class="confirm__button  confirm__button--submit" type="submit" value="Ок">
+          <input class="confirm__button  confirm__button--cansel" type="button" name="cancel" value="Отмена">
+        </div>
+      </form>
+      `;
+    this.root.appendChild(popup);
+
+    const popupForm = this.root.querySelector(`.confirm__form`);
+    popupForm.addEventListener(`submit`, this.goBack);
+    popupForm.addEventListener(`cancel`, () => {
+      this.root.removeChild(popup);
+    });
+
   }
 
   goBack() {

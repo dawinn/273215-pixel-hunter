@@ -1,6 +1,7 @@
 import GameModel from './data/game-model';
 import ErrorScreen from "./error/error-screen";
-import Loader from "./loader";
+import Loader from './loader';
+import IntroScreen from './intro/intro-screen';
 import GreetingScreen from './greeting/greeting-screen';
 import RulesScreen from './rules/rules-screen';
 import GameScreen from './game/game-screen';
@@ -14,7 +15,11 @@ export const changeView = (element) => {
 
 let gameData;
 export default class Application {
+
   static async start() {
+    const intro = new IntroScreen();
+    intro.goContinue = () => Application.showGreeting();
+    changeView(intro.element);
     try {
       Application.showGreeting(await Loader.loadData());
     } catch (e) {
@@ -23,7 +28,9 @@ export default class Application {
   }
 
   static showGreeting(data) {
-    gameData = data;
+    if (!gameData) {
+      gameData = data;
+    }
     const greeting = new GreetingScreen();
     greeting.goContinue = () => Application.showRules();
     changeView(greeting.element);
@@ -38,7 +45,7 @@ export default class Application {
 
   static showGame(playerName) {
     const gameScreen = new GameScreen(new GameModel(gameData, playerName));
-    gameScreen.goBack = () => Application.showGreeting();
+    gameScreen.goBack = (data) => Application.showGreeting(data);
     gameScreen.showStats = (stats) => Application.showStats(stats);
     changeView(gameScreen.element);
     gameScreen.startGame();
