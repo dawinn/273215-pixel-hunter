@@ -30,7 +30,6 @@ export default class GameScreen {
   startGame() {
     let blink = false;
     this.changeLevel();
-    this.model.restartTimer();
 
     this._interval = setInterval(() => {
       this.model.tick();
@@ -51,6 +50,7 @@ export default class GameScreen {
 
     switch (this.model.onAnswer(answer)) {
       case NextStep.NEXT_LEVEL:
+        this.model.restartTimer();
         this.startGame();
         break;
       case NextStep.DIE:
@@ -110,8 +110,9 @@ export default class GameScreen {
 
     const popupForm = this.root.querySelector(`.confirm__form`);
     popupForm.addEventListener(`submit`, this.goBack);
-    popupForm.addEventListener(`cancel`, () => {
+    popupForm.cancel.addEventListener(`click`, () => {
       this.root.removeChild(popup);
+      this.startGame();
     });
 
   }
