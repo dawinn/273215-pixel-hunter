@@ -20,6 +20,7 @@
 .game__timer--blink {
   color: red;
   transform: translateX(-50%) scale(1.2);
+  transition: transform 0.2s ease-in-out 0.2s;
 }
 
 .game__lives {

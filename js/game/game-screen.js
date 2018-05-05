@@ -28,19 +28,15 @@ export default class GameScreen {
   }
 
   startGame() {
-    let blink = false;
     this.changeLevel();
 
     this._interval = setInterval(() => {
       this.model.tick();
-      if (this.model.state.time < ABIT_TIME) {
-        blink = true;
-      }
 
       if (this.model.state.time <= 0) {
         this.answer();
       }
-      this.updateHeader(blink);
+      this.updateHeader(this.model.state.time < ABIT_TIME);
     }, 1000);
 
   }
@@ -66,13 +62,14 @@ export default class GameScreen {
 
   updateHeader(blink) {
     const header = new HeaderView(this.model.state);
-    if (blink) {
-      this.header.onBlink();
-    }
+
     this.root.replaceChild(header.element, this.header.element);
 
     header.onBackClick = () => this.onConfirm();
     this.header = header;
+    if (blink) {
+      this.header.onBlink();
+    }
   }
 
 
