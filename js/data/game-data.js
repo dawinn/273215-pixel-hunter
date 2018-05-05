@@ -82,24 +82,14 @@ export const getResultType = (answer, time) => {
 };
 
 export const getResult = (answers, lives) => {
-  let result = 0;
-  let countWrongs = 0;
-  for (let i = 0; i < answers.length; i++) {
-    let answer = (typeof answers[i] === `object` ? Object.values(answers[i]) : answers[i]);
-    if (answer[0]) {
-      result += 100;
-      result += (answer[1] > answersTime.FAST ? 50 : 0);
-      result += (answer[1] < answersTime.SLOW ? -50 : 0);
-    } else if (answer.result) {
-      countWrongs++;
-    } else if (answer[0] === -1) {
-      return -1;
-    }
-  }
-  if (countWrongs > 3) {
+
+  if (answers.length > answers.filter((it) => it).length) {
     return -1;
   }
-  return result + (lives > 0 ? lives * 50 : 0);
+  return 100 * answers.filter((it) => it !== Result.WRONG && it !== Result.UNKNOWN).length
+    + 50 * (answers.filter((it) => it === Result.FAST).length
+      + lives
+      - answers.filter((it) => it === Result.SLOW).length);
 };
 
 export const tick = (game) => {
