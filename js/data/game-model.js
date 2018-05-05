@@ -55,8 +55,6 @@ export default class GameModel {
   }
 
   onAnswer(answer) {
-    // console.log(this.getLevel());
-    // console.log(answer);
     const result = (answer ? checkAnswer(this.getLevel(), answer) : false);
     this.addResult(getResultType(result, this._state.time));
 
