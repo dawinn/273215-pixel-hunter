@@ -1,10 +1,11 @@
 import AbstractView from "../abstract-view";
 
 export default class ConfirmView extends AbstractView {
+
   constructor() {
     super();
-    this.bind();
   }
+
   get template() {
     return `
       <form class="confirm__form">
@@ -20,18 +21,20 @@ export default class ConfirmView extends AbstractView {
     this.element.classList.add(`confirm__overlay`);
     this._popupForm = this.element.querySelector(`.confirm__form`);
 
-    this._popupForm.addEventListener(`submit`, this._onSubmitClick);
-    this._onSubmitClick = (evt) => {
-      evt.preventDefault();
-      this.unbind();
-      this.onSubmitClick();
-    };
-    this._popupForm.cancel.addEventListener(`click`, this._onCancelClick);
-    this._onCancelClick = (evt) => {
-      evt.preventDefault();
-      this.unbind();
-      this.onCancelClick();
-    };
+    this._popupForm.addEventListener(`submit`, this._onSubmitClick.bind(this));
+    this._popupForm.cancel.addEventListener(`click`, this._onCancelClick.bind(this));
+  }
+
+  _onSubmitClick(evt) {
+    evt.preventDefault();
+    this.unbind();
+    this.onSubmitClick();
+  }
+
+  _onCancelClick(evt) {
+    evt.preventDefault();
+    this.unbind();
+    this.onCancelClick();
   }
 
   unbind() {

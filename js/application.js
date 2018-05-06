@@ -1,5 +1,5 @@
 import ErrorScreen from "./error/error-screen";
-import Loader from './loader';
+import Loader, {preCacheAssets} from './loader';
 import IntroScreen from './intro/intro-screen';
 import GreetingScreen from './greeting/greeting-screen';
 import RulesScreen from './rules/rules-screen';
@@ -20,10 +20,12 @@ export default class Application {
 
   static async start() {
     const intro = new IntroScreen();
-    intro.onContinueClick = (data) => Application.showGreeting(data);
     changeView(intro.element);
+    intro.onContinueClick = (data) => Application.showGreeting(data);
     try {
-      Application.showGreeting(await Loader.loadData());
+      let data = await Loader.loadData();
+      Promise.all(preCacheAssets(data))
+          .then(() => Application.showGreeting(data));
     } catch (e) {
       Application.showError(e);
     }
@@ -42,7 +44,7 @@ export default class Application {
   static showRules() {
     const rules = new RulesScreen();
     rules.onBackClick = () => Application.showGreeting();
-    rules.onSubmit = (player) => Application.showGame(player);
+    rules.onSubmitClick = (player) => Application.showGame(player);
     changeView(rules.element);
   }
 

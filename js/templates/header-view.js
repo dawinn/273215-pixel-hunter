@@ -8,7 +8,6 @@ export default class HeaderView extends AbstractView {
   constructor(state) {
     super();
     this._state = state;
-    this.bind();
   }
 
   get template() {
@@ -35,16 +34,17 @@ export default class HeaderView extends AbstractView {
 
   bind() {
     this._backButton = this.element.querySelector(`.back`);
-    this._backButton.addEventListener(`click`, this._onBackClick);
+    this._backButton.addEventListener(`click`, this._onBackClick.bind(this));
 
     this._blink = this.element.querySelector(`.game__timer`);
-
-    this._onBackClick = (evt) => {
-      evt.preventDefault();
-      this.unbind();
-      this.onBackClick();
-    };
   }
+
+  _onBackClick(evt) {
+    evt.preventDefault();
+    this.unbind();
+    this.onBackClick();
+  }
+
 
   unbind() {
     this._backButton.removeEventListener(`click`, this._onBackClick);

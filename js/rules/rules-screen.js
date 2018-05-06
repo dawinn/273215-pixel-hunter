@@ -8,7 +8,7 @@ export default class RulesScreen {
     this._header.onBackClick = () => this.onBackClick();
 
     this._content = new RulesView();
-    this._content.onSubmit = (player) => this.onSubmit(player);
+    this._content.onSubmitClick = (player) => this.onSubmitClick(player);
 
     this._root = document.createElement(`div`);
     this._root.appendChild(this._header.element);

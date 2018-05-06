@@ -3,7 +3,6 @@ import AbstractView from "../abstract-view";
 export default class RulesView extends AbstractView {
   constructor() {
     super();
-    this.bind();
   }
 
   get template() {
@@ -27,25 +26,25 @@ export default class RulesView extends AbstractView {
 
   bind() {
     const form = this.element.querySelector(`.rules__form`);
-    const submitBtn = form.querySelector(`.rules__button`);
-    const playerName = form.querySelector(`.rules__input`);
+    this._submitBtn = form.querySelector(`.rules__button`);
+    this._playerName = form.querySelector(`.rules__input`);
 
-    form.addEventListener(`submit`, this._onSubmitClick);
+    form.addEventListener(`submit`, this._onSubmitClick.bind(this));
 
-    this._onSubmitClick = (evt) => {
-      evt.preventDefault();
-      const player = playerName.value;
-      playerName.value = ``;
-      submitBtn.disabled = true;
-      this.onSubmit(player);
-    };
-
-    playerName.addEventListener(`keyup`, () =>{
-      submitBtn.disabled = !playerName.value;
+    this._playerName.addEventListener(`keyup`, () =>{
+      this._submitBtn.disabled = !this._playerName.value;
     });
   }
 
-  onSubmit() {
+  _onSubmitClick(evt) {
+    evt.preventDefault();
+    const player = this._playerName.value;
+    this._playerName.value = ``;
+    this._submitBtn.disabled = true;
+    this.onSubmitClick(player);
+  }
+
+  onSubmitClick() {
 
   }
 }
