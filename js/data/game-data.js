@@ -4,8 +4,7 @@ export const INITIAL_GAME = Object.freeze({
   time: 30,
 });
 
-
-export const answersTime = {
+export const AnswersTime = {
   FAST: 20,
   SLOW: 10
 };
@@ -25,36 +24,24 @@ export const NextStep = {
   NEXT_LEVEL: 3
 };
 
-export const gameTypes = {
+export const GameTypes = {
   ONE: `tinder-like`,
   TWO: `two-of-two`,
   OF_TREE: `one-of-three`
 };
 
-export const templateGames = {
-  [gameTypes.ONE]: {
-    'classForm': `game__content--wide`
-  },
-  [gameTypes.TWO]: {
-    'classForm': ``
-  },
-  [gameTypes.OF_TREE]: {
-    'classForm': `game__content--triple`
-  }
-};
-
 export const checkAnswer = (game, answer) => {
   let result;
   switch (game.type) {
-    case gameTypes.ONE:
+    case GameTypes.ONE:
       result = game.answers[0].type === answer[0];
       break;
 
-    case gameTypes.TWO:
+    case GameTypes.TWO:
       result = game.answers[0].type === answer[0] && game.answers[1].type === answer[1];
       break;
 
-    case gameTypes.OF_TREE:
+    case GameTypes.OF_TREE:
       const set = new Set();
       game.answers.map((it) => (set.has(it.type) ? set.delete(it.type) : set.add(it.type)));
       result = set.has(answer[0]);
@@ -68,10 +55,10 @@ export const getResultType = (answer, time) => {
     return Result.UNKNOWN;
   } else {
     if (answer) {
-      if (time > answersTime.FAST) {
+      if (time > AnswersTime.FAST) {
         return Result.FAST;
       }
-      if (time < answersTime.SLOW) {
+      if (time < AnswersTime.SLOW) {
         return Result.SLOW;
       }
       return Result.CORRECT;

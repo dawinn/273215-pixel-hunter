@@ -38,8 +38,8 @@ export default class StatsView extends AbstractView {
     super();
     this._stats = stats;
     this._win = this._stats.win;
-    this.head = this.getHead();
-    this.content = StatsView.showStat(1, this._stats);
+    this._head = this.head;
+    this._content = this.content;
   }
 
   get template() {
@@ -51,8 +51,22 @@ export default class StatsView extends AbstractView {
     </div>`;
   }
 
-  getHead() {
+  get head() {
     return `<h1>${(this._win ? `Победа!` : `Вы проиграли :( как же так?`)}</h1>`;
+  }
+  get content() {
+    return `${StatsView.showStat(1, this._stats)}`;
+  }
+
+  bind() {
+    this._statsContainer = this.element.querySelector(`div.stats__all`);
+  }
+
+  showStats(stats) {
+    stats.reverse();
+    this._statsContainer.innerHTML = ``;
+    this._statsContainer.innerHTML = `
+    ${stats.map((it, i) => StatsView.showStat(1 + i, it)).join(``)}`;
   }
 
   static showStat(order, stat) {
@@ -71,20 +85,7 @@ export default class StatsView extends AbstractView {
           ${renderBonus(`slow`, stat.answers.filter((it) => it === Result.SLOW).length * (-1))}
           <td colspan="5" class="result__total  result__total--final">${getResult(stat.answers, stat.lives)}</td>
         </tr>` : ``}
-      </table>
-      `;
-  }
-
-  bind() {
-    this._statsContainer = this.element.querySelector(`div.stats__all`);
-  }
-
-  showStats(stats) {
-    stats.reverse();
-    this._statsContainer.innerHTML = ``;
-    this._statsContainer.innerHTML = `
-    ${stats.map((it, i) => StatsView.showStat(1 + i, it)).join(``)}`;
-
+      </table>`;
   }
 }
 

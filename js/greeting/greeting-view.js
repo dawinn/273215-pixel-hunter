@@ -18,12 +18,8 @@ export default class GreetingView extends AbstractView {
   </div>`;
   }
 
-
   bind() {
     this.element.querySelector(`.greeting__continue`).addEventListener(`click`, this.onContinueClick);
   }
 
-  onContinueClick() {
-
-  }
 }

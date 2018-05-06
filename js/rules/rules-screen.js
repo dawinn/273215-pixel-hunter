@@ -4,28 +4,19 @@ import RulesView from './rules-view';
 
 export default class RulesScreen {
   constructor() {
-    this.header = new HeaderView();
+    this._header = new HeaderView();
+    this._header.onBackClick = () => this.onBackClick();
 
-    this.header.onBackClick = () => this.goBack();
-    this.content = new RulesView();
-    this.content.onSubmit = () => this.submit();
+    this._content = new RulesView();
+    this._content.onSubmit = (player) => this.onSubmit(player);
 
-    this.root = document.createElement(`div`);
-    this.root.appendChild(this.header.element);
-    this.root.appendChild(this.content.element);
-    this.root.appendChild(new FooterView().element);
+    this._root = document.createElement(`div`);
+    this._root.appendChild(this._header.element);
+    this._root.appendChild(this._content.element);
+    this._root.appendChild(new FooterView().element);
   }
 
   get element() {
-    return this.root;
+    return this._root;
   }
-
-  submit() {
-
-  }
-
-  goBack() {
-
-  }
-
 }

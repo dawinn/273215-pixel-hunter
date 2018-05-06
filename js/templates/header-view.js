@@ -7,7 +7,8 @@ const drawHeart = (full) => {
 export default class HeaderView extends AbstractView {
   constructor(state) {
     super();
-    this.state = state;
+    this._state = state;
+    this.bind();
   }
 
   get template() {
@@ -19,30 +20,38 @@ export default class HeaderView extends AbstractView {
         <img src="img/logo_small.svg" width="101" height="44">
       </button>
     </div>
-   ${!this.state ? `` : `<h1 class="game__timer">${this.state.time}</h1>
+   ${!this._state ? `` : `<h1 class="game__timer">${this._state.time}</h1>
     <div class="game__lives">
-      ${drawHeart(this.state.lives > 2)}
-      ${drawHeart(this.state.lives > 1)}
-      ${drawHeart(this.state.lives > 0)}
+      ${drawHeart(this._state.lives > 2)}
+      ${drawHeart(this._state.lives > 1)}
+      ${drawHeart(this._state.lives > 0)}
     </div>`}
   </header>`;
   }
 
-  bind(element) {
-    element.querySelector(`.back`).addEventListener(`click`, (evt) => {
-      evt.preventDefault();
-      this.onBackClick();
-    });
+  set onBlink(blink = false) {
+    this._blink.classList.toggle(`game__timer--blink`, blink);
+  }
+
+  bind() {
+    this._backButton = this.element.querySelector(`.back`);
+    this._backButton.addEventListener(`click`, this._onBackClick);
 
     this._blink = this.element.querySelector(`.game__timer`);
+
+    this._onBackClick = (evt) => {
+      evt.preventDefault();
+      this.unbind();
+      this.onBackClick();
+    };
   }
+
+  unbind() {
+    this._backButton.removeEventListener(`click`, this._onBackClick);
+  }
+
 
   onBackClick() {
 
   }
-
-  onBlink() {
-    this._blink.classList.add(`game__timer--blink`);
-  }
-
 }

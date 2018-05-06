@@ -6,26 +6,23 @@ export default class RulesScreen {
   constructor(data, playerName) {
     this._data = data;
     this._playerName = playerName;
-    this.header = new HeaderView();
-    this.header.onBackClick = () => this.goBack();
-    this.content = new StatsView(this._data);
-    this.content.onSubmit = this.submit;
 
-    this.root = document.createElement(`div`);
-    this.root.appendChild(this.header.element);
-    this.root.appendChild(this.content.element);
-    this.root.appendChild(new FooterView().element);
+    this._header = new HeaderView();
+    this._header.onBackClick = () => this.onBackClick();
+    this._content = new StatsView(this._data);
+    this._content.onSubmit = this.onSubmit;
+
+    this._root = document.createElement(`div`);
+    this._root.appendChild(this._header.element);
+    this._root.appendChild(this._content.element);
+    this._root.appendChild(new FooterView().element);
   }
 
   get element() {
-    return this.root;
-  }
-
-  goBack() {
-
+    return this._root;
   }
 
   showStats(stats) {
-    this.content.showStats(stats);
+    this._content.showStats(stats);
   }
 }

@@ -3,19 +3,14 @@ import GreetingView from './greeting-view';
 
 export default class GreetingScreen {
   constructor() {
-    this.content = new GreetingView();
-    this.content.onContinueClick = () => this.goContinue();
-
-    this.root = document.createElement(`div`);
-    this.root.appendChild(this.content.element);
-    this.root.appendChild(new FooterView().element);
+    this._content = new GreetingView();
+    this._content.onContinueClick = () => this.onContinueClick();
+    this._root = document.createElement(`div`);
+    this._root.appendChild(this._content.element);
+    this._root.appendChild(new FooterView().element);
   }
 
   get element() {
-    return this.root;
-  }
-
-  goContinue() {
-
+    return this._root;
   }
 }

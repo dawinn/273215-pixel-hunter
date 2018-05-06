@@ -3,19 +3,15 @@ import IntroView from './intro-view';
 
 export default class IntroScreen {
   constructor() {
-    this.content = new IntroView();
-    this.content.onContinueClick = () => this.goContinue();
+    this._content = new IntroView();
+    this._content.onContinueClick = () => this.onContinueClick();
 
-    this.root = document.createElement(`div`);
-    this.root.appendChild(this.content.element);
-    this.root.appendChild(new FooterView().element);
+    this._root = document.createElement(`div`);
+    this._root.appendChild(this._content.element);
+    this._root.appendChild(new FooterView().element);
   }
 
   get element() {
-    return this.root;
-  }
-
-  goContinue() {
-
+    return this._root;
   }
 }

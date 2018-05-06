@@ -3,21 +3,20 @@ import {adaptServerData} from './data/data-adapter';
 const SERVER_URL = `https://es.dump.academy/pixel-hunter`;
 
 const DEFAULT_NAME = `o0`;
-const APP_ID = 27321544;
+const APP_ID = 2732157834;
 
 const checkStatus = (response) => {
   if (response.ok) {
     return response;
-  } else {
-    throw new Error(`${response.status}: ${response.statusText}`);
   }
+  throw new Error(`${response.status}: ${response.statusText}`);
 };
 
 const toJSON = (res) => res.json();
 
 export default class Loader {
-  static loadData() {
-    return fetch(`${SERVER_URL}/questions`).then(checkStatus).then(toJSON).then(adaptServerData);
+  static loadData(server = `${SERVER_URL}/questions`, options) {
+    return fetch(`${server}`, options).then(checkStatus).then(toJSON).then(adaptServerData);
   }
 
   static loadResults(name = DEFAULT_NAME) {

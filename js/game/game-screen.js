@@ -2,25 +2,26 @@ import {NextStep} from '../data/game-data';
 import HeaderView from '../templates/header-view';
 import FooterView from '../templates/footer-view';
 import LevelView from './level-view';
+import ConfirmView from '../templates/confirm-view';
 
 const ABIT_TIME = 5;
 
 export default class GameScreen {
   constructor(model) {
     this.model = model;
-    this.header = new HeaderView(this.model.state);
+    this._header = new HeaderView(this.model.state);
     this.content = new LevelView(this.model.getLevel(), this.model.results);
 
-    this.root = document.createElement(`div`);
-    this.root.appendChild(this.header.element);
-    this.root.appendChild(this.content.element);
-    this.root.appendChild(new FooterView().element);
+    this._root = document.createElement(`div`);
+    this._root.appendChild(this._header.element);
+    this._root.appendChild(this.content.element);
+    this._root.appendChild(new FooterView().element);
 
     this._interval = null;
   }
 
   get element() {
-    return this.root;
+    return this._root;
   }
 
   stopGame() {
@@ -36,9 +37,8 @@ export default class GameScreen {
       if (this.model.state.time <= 0) {
         this.answer();
       }
-      this.updateHeader(this.model.state.time < ABIT_TIME);
+      this.updateHeader();
     }, 1000);
-
   }
 
   answer(answer) {
@@ -60,18 +60,14 @@ export default class GameScreen {
     }
   }
 
-  updateHeader(blink) {
+  updateHeader() {
     const header = new HeaderView(this.model.state);
+    header.onBackClick = () => this.onConfirmBack();
+    this._root.replaceChild(header.element, this._header.element);
 
-    this.root.replaceChild(header.element, this.header.element);
-
-    header.onBackClick = () => this.onConfirm();
-    this.header = header;
-    if (blink) {
-      this.header.onBlink();
-    }
+    this._header = header;
+    this._header.onBlink = this.model.state.time < ABIT_TIME;
   }
-
 
   changeLevel() {
     this.updateHeader();
@@ -82,7 +78,7 @@ export default class GameScreen {
   }
 
   changeContentView(view) {
-    this.root.replaceChild(view.element, this.content.element);
+    this._root.replaceChild(view.element, this.content.element);
     this.content = view;
   }
 
@@ -90,36 +86,17 @@ export default class GameScreen {
     this.showStats(this.model.getStats(win));
   }
 
-  onConfirm() {
+  onConfirmBack() {
     this.stopGame();
-    const popup = document.createElement(`div`);
-    popup.classList.add(`confirm__overlay`);
-    popup.innerHTML = `
-      <form class="confirm__form">
-        <div class="confirm__message">Вы хотите вернуться? Все результаты текущей игры будут потеряны</div>
-        <div class="confirm__buttons">
-          <input class="confirm__button  confirm__button--submit" type="submit" value="Ок">
-          <input class="confirm__button  confirm__button--cansel" type="button" name="cancel" value="Отмена">
-        </div>
-      </form>
-      `;
-    this.root.appendChild(popup);
+    this._popup = new ConfirmView();
 
-    const popupForm = this.root.querySelector(`.confirm__form`);
-    popupForm.addEventListener(`submit`, this.goBack);
-    popupForm.cancel.addEventListener(`click`, () => {
-      this.root.removeChild(popup);
+    this._root.appendChild(this._popup.element);
+    this._popup.onSubmitClick = () => this.onBackClick();
+    this._popup.onCancelClick = () => this._onCancelClick();
+
+    this._onCancelClick = () => {
+      this._root.removeChild(this._popup.element);
       this.startGame();
-    });
-
-  }
-
-  goBack() {
-
-  }
-
-  showStats() {
-
+    };
   }
 }
-
