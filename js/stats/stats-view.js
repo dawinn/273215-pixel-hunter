@@ -1,6 +1,10 @@
 import AbstractView from "../abstract-view";
-import {Result, getResult} from '../data/game-data.js';
 import getStatsBar from './statsbar-view';
+import {Result,
+  getResult,
+  BONUS_POINTS,
+  ANSWER_POINTS} from '../data/game-data.js';
+
 
 const getBonusTemplate = (type, fieldName) => {
   const BONUS_TEMPLATE = {
@@ -27,7 +31,7 @@ const renderBonus = (type, count) => {
         <td class="result__extra">${getBonusTemplate(type, `title`)}</td>
         <td class="result__extra">${Math.abs(count)}&nbsp;<span class="stats__result ${getBonusTemplate(type, `class`)}"></span></td>
         <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">${count * 50}</td>
+        <td class="result__total">${count * BONUS_POINTS}</td>
         </tr>`;
   }
   return ``;
@@ -77,7 +81,7 @@ export default class StatsView extends AbstractView {
             ${getStatsBar(stat.answers)}
           </td>
           <td class="result__points">×&nbsp;100</td>
-          <td class="result__total">${stat.win ? stat.answers.filter((it) => it !== Result.WRONG).length * 100 : `Fail`}</td>
+          <td class="result__total">${stat.win ? stat.answers.filter((it) => it !== Result.WRONG).length * ANSWER_POINTS : `Fail`}</td>
         </tr>
         ${stat.win ? `
           ${renderBonus(`fast`, stat.answers.filter((it) => it === Result.FAST).length)}

@@ -4,6 +4,10 @@ export const INITIAL_GAME = Object.freeze({
   time: 30,
 });
 
+export const BONUS_POINTS = 50;
+export const ANSWER_POINTS = 100;
+const RESULT_FAIL = -1;
+
 export const AnswersTime = {
   FAST: 20,
   SLOW: 10
@@ -53,28 +57,28 @@ export const checkAnswer = (game, answer) => {
 export const getResultType = (answer, time) => {
   if (answer === `undefined`) {
     return Result.UNKNOWN;
-  } else {
-    if (answer) {
-      if (time > AnswersTime.FAST) {
-        return Result.FAST;
-      }
-      if (time < AnswersTime.SLOW) {
-        return Result.SLOW;
-      }
-      return Result.CORRECT;
-    } else {
-      return Result.WRONG;
+  }
+
+  if (answer) {
+    if (time > AnswersTime.FAST) {
+      return Result.FAST;
     }
+    if (time < AnswersTime.SLOW) {
+      return Result.SLOW;
+    }
+    return Result.CORRECT;
+  } else {
+    return Result.WRONG;
   }
 };
 
 export const getResult = (answers, lives) => {
 
   if (answers.length > answers.filter((it) => it).length) {
-    return -1;
+    return RESULT_FAIL;
   }
-  return 100 * answers.filter((it) => it !== Result.WRONG && it !== Result.UNKNOWN).length
-    + 50 * (answers.filter((it) => it === Result.FAST).length
+  return ANSWER_POINTS * answers.filter((it) => it !== Result.WRONG && it !== Result.UNKNOWN).length
+    + BONUS_POINTS * (answers.filter((it) => it === Result.FAST).length
       + lives
       - answers.filter((it) => it === Result.SLOW).length);
 };

@@ -7,11 +7,20 @@ import GameModel from './data/game-model';
 import GameScreen from './game/game-screen';
 import StatsScreen from './stats/stats-screen';
 
+const TIME_CROSSFADE_EFFECT = 5000;
 const screen = document.querySelector(`.central`);
 
 export const changeView = (element) => {
   screen.innerHTML = ``;
   screen.appendChild(element);
+};
+
+
+export const changeViewCrossfade = (element) => {
+  screen.appendChild(element);
+  const oldElement = screen.querySelector(`.crossfade`);
+  oldElement.classList.add(`crossfade--off`);
+  setTimeout(() => screen.removeChild(oldElement), TIME_CROSSFADE_EFFECT);
 };
 
 let gameData;
@@ -21,7 +30,6 @@ export default class Application {
   static async start() {
     const intro = new IntroScreen();
     changeView(intro.element);
-    intro.onContinueClick = (data) => Application.showGreeting(data);
     try {
       let data = await Loader.loadData();
       Promise.all(preCacheAssets(data))
@@ -38,7 +46,11 @@ export default class Application {
 
     const greeting = new GreetingScreen();
     greeting.onContinueClick = () => Application.showRules();
-    changeView(greeting.element);
+    if (!data) {
+      changeView(greeting.element);
+    } else {
+      changeViewCrossfade(greeting.element);
+    }
   }
 
   static showRules() {

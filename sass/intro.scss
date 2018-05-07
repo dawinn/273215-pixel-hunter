@@ -35,3 +35,33 @@
   position: absolute;
   bottom: 0;
 }
+
+.crossfade {
+  position: absolute;
+}
+
+@keyframes crossfade__out {
+  0% {
+    opacity:1;
+  }
+  15% {
+    opacity:0.8;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  70% {
+    opacity:0;
+  }
+  100% {
+    opacity:0;
+  }
+}
+
+.crossfade--off {
+  animation-name: crossfade__out;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
+  animation-duration: 3s;
+  animation-direction: alternate;
+}
