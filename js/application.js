@@ -20,7 +20,7 @@ export const changeViewCrossfade = (element) => {
   screen.appendChild(element);
   const oldElement = screen.querySelector(`.crossfade`);
   oldElement.classList.add(`crossfade--off`);
-  setTimeout(() => screen.removeChild(oldElement), TIME_CROSSFADE_EFFECT);
+  setTimeout(() => screen.querySelector(`.crossfade`) && screen.removeChild(oldElement), TIME_CROSSFADE_EFFECT);
 };
 
 let gameData;
