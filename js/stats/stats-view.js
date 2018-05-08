@@ -5,31 +5,28 @@ import {Result,
   BONUS_POINTS,
   ANSWER_POINTS} from '../data/game-data.js';
 
-
-const getBonusTemplate = (type, fieldName) => {
-  const BONUS_TEMPLATE = {
-    'fast': {
-      title: `Бонус за скорость:`,
-      class: `stats__result--fast`
-    },
-    'alive': {
-      title: `Бонус за жизни:`,
-      class: `stats__result--alive`
-    },
-    'slow': {
-      title: `Штраф за медлительность:`,
-      class: `stats__result--slow`
-    }
-  };
-  return BONUS_TEMPLATE[type][fieldName];
+const BONUS_TEMPLATE = {
+  'fast': {
+    title: `Бонус за скорость:`,
+    class: `stats__result--fast`
+  },
+  'alive': {
+    title: `Бонус за жизни:`,
+    class: `stats__result--alive`
+  },
+  'slow': {
+    title: `Штраф за медлительность:`,
+    class: `stats__result--slow`
+  }
 };
+
 
 const renderBonus = (type, count) => {
   if (count !== 0) {
     return `<tr>
         <td></td>
-        <td class="result__extra">${getBonusTemplate(type, `title`)}</td>
-        <td class="result__extra">${Math.abs(count)}&nbsp;<span class="stats__result ${getBonusTemplate(type, `class`)}"></span></td>
+        <td class="result__extra">${ BONUS_TEMPLATE[type][`title`]}</td>
+        <td class="result__extra">${Math.abs(count)}&nbsp;<span class="stats__result ${ BONUS_TEMPLATE[type][`class`]}"></span></td>
         <td class="result__points">×&nbsp;50</td>
         <td class="result__total">${count * BONUS_POINTS}</td>
         </tr>`;
