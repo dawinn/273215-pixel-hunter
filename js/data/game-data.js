@@ -63,13 +63,15 @@ export const getResultType = (answer, time) => {
     if (time > AnswersTime.FAST) {
       return Result.FAST;
     }
+
     if (time < AnswersTime.SLOW) {
       return Result.SLOW;
     }
+
     return Result.CORRECT;
-  } else {
-    return Result.WRONG;
   }
+
+  return Result.WRONG;
 };
 
 export const getResult = (answers, lives) => {

@@ -18,6 +18,7 @@ export const changeView = (element) => {
 
 export const changeViewCrossfade = (element) => {
   screen.appendChild(element);
+  element.classList.add(`central--blur`);
   const oldElement = screen.querySelector(`.crossfade`);
   oldElement.classList.add(`crossfade--off`);
   setTimeout(() => screen.querySelector(`.crossfade`) && screen.removeChild(oldElement), TIME_CROSSFADE_EFFECT);
